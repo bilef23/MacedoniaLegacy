@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="/jquery/jquery.js"></script>
+    <script src="/jquery/jquery-ui.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="/style.css" rel="stylesheet">
+    <script src="/javascript/script.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Actor' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+</head>
+<body id="index-body">
+
+<div class="welcomePart">
+    <div class="wrapper">
+        <h1 id="index-logo">
+            <span class="highlight">Macedonian</span>HeritageHub
+        </h1>
+        <form action="/listPlaces" method="get">
+            <div class="search">
+
+                        <select class="searchbar" name="category" style="text-align:center">
+                            <option >CHOOSE CATEGORY</option>
+                            <option class="option" name="name" value="Archeological place">Archeological place</option>
+                            <hr>
+                            <option class="option" name="name" value="museum">Museum</option>
+                            <hr>
+                            <option class="option" name="name" value="Place of worship">Place of Worship</option>
+                        </select>
+
+
+                        <input class="searchbar" type="text" id="searchName" name="searchName" placeholder="WRITE OBJECT NAME">
+                        <input class="searchbar" type="text" id="searchLocation"name="searchLocation" placeholder="WRITE LOCATION">
+
+
+                <div >
+                    <button id="searchButton"  type="submit">
+                        SEARCH    <i class="fas fa-search"></i> <!-- Font Awesome search icon -->
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="separator background">
+    <div>
+        <h2>FAST</h2>
+        <p>Swiftly navigate<br>Macedonia's history with<br>our fast web app</p>
+    </div>
+    <div>
+        <h2>SIMPLE</h2>
+        <p>Explore easily with our<br>simple and user-friendly<br>interface</p>
+    </div>
+    <div>
+        <h2>EASY</h2>
+        <p>Effortless historical<br>discovery made easy with<br>our web application</p>
+    </div>
+</div>
+
+<div class="resultSection">
+    <div class="generatedResult">
+        <div class="row">
+            <div class="separateResult inRow">OBJECT NAME</div>
+            <div class="separateResult inRow">OBJECT CATEGORY</div>
+            <div class="separateResult inRow">OBJECT LOCATION</div>
+            <div class="separateResult">Information</div>
+        </div>
+        <div class="row" th:each="place : ${places}">
+            <div class="separateResult inRow" th:text="${place.getName()}"></div>
+            <div class="separateResult inRow" th:text="${place.getCategory()}"></div>
+            <div class="separateResult inRow" th:text="${place.getLocation()}"></div>
+            <div class="separateResult">
+                <a target="_blank"  class="tableButton"><i class="material-icons"
+                                                                                           style="font-size: 30px">&#xe0c8;</i></a>
+            </div>
+            <div class="separateResult button">
+                <button class="tableButton" onclick="show()"><i class="fa">&#xf05a;</i></button>
+                <div class="side cardVisible" id="card" style="display: none" >
+                    <span class="additionalInfoTitle">ADDITIONAL INFO:</span> <br>
+                    <label><span class="additionalInfoTitle">review: </span> </label> <br>
+                        <label><span class="additionalInfoTitle">rating: </span> </label>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<button id="myBtn" title="Go to top">↑</button>
+<script>
+    function show() {
+        var element = document.getElementById("card");
+        console.log("ok")
+        console.log(element)
+        if (element) {
+            element.style.display="block"
+            // Toggle the "cardVisible" class
+            element.classList.toggle("cardVisible");
+            element.classList.toggle("card")
+        }
+    }
+
+</script>
+</body>
+</html>
