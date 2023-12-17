@@ -103,6 +103,26 @@
             element.classList.toggle("card")
         }
     }
+    function getCoordinates(){
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+
+                    console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+
+                    // Now you can use these coordinates in your application
+                },
+                function(error) {
+                    console.error(`Error getting location: ${error.message}`);
+                    console.error(`Error code: ${error.code}`);
+                }
+            );
+        } else {
+            console.error("Geolocation is not supported by this browser.");
+        }
+    }
 </script>
 </body>
 </html>
