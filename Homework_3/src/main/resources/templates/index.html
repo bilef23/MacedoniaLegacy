@@ -76,7 +76,7 @@
             <div class="separateResult inRow" th:text="${place.getLocation()}"></div>
             <div class="separateResult">
                 <a target="_blank"  class="tableButton"><i class="material-icons"
-                                                                                           style="font-size: 30px">&#xe0c8;</i></a>
+                                                                                           style="font-size: 30px" th:onclick="'getCoordinates(' + ${place.getId()} + ')'">&#xe0c8;</i></a>
             </div>
             <div class="separateResult button">
                 <button class="tableButton" onclick="show()"><i class="fa">&#xf05a;</i></button>
@@ -105,7 +105,8 @@
     }
     //console.log() is used for finding the bug (if it exists)
     //using navigator for getting the coordinates of the user (if the user allows)
-    function getCoordinates(){
+    function getCoordinates(ID){
+
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 function(position) {
@@ -113,6 +114,7 @@
                     const longitude = position.coords.longitude;
 
                     console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+                    sendLocation(latitude,longitude,ID)
                 },
                 function(error) {
                     console.error(`Error getting location: ${error.message}`);
@@ -122,6 +124,26 @@
         } else {
             console.error("Geolocation is not supported by this browser.");
         }
+    }
+    function sendLocation(latitude, longitude, placeId) {
+        var xhr = new XMLHttpRequest();
+        console.log("OK")
+        xhr.open("POST", "/loc/receiveLoc", true);
+
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+        // Converting the data to a URL-encoded string
+        var data = "latitude=" + encodeURIComponent(latitude) +
+            "&longitude=" + encodeURIComponent(longitude) +
+            "&placeId=" + encodeURIComponent(placeId);
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log(xhr.responseText);
+            }
+        };
+
+        xhr.send(data);
     }
 </script>
 </body>
