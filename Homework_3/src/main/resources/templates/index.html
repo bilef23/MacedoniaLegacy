@@ -103,6 +103,8 @@
             element.classList.toggle("card")
         }
     }
+    //console.log() is used for finding the bug (if it exists)
+    //using navigator for getting the coordinates of the user (if the user allows)
     function getCoordinates(){
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
@@ -111,8 +113,6 @@
                     const longitude = position.coords.longitude;
 
                     console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
-
-                    // Now you can use these coordinates in your application
                 },
                 function(error) {
                     console.error(`Error getting location: ${error.message}`);
