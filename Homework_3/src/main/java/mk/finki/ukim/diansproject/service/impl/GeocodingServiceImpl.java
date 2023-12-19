@@ -8,23 +8,25 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
+import java.net.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 @Service
 public class GeocodingServiceImpl implements GeocodingService {
+
     @Override
     public Coordinates getCoordinates(CulturalPlace place) throws IOException {
 
-            String fullName=place.getName().replace(" ","%20");
+            String fullName=place.getName();
             String city=place.getLocation();
-            String addr = fullName+"%20"+city+"%20"+"North%20Macedonia"; // Replace with your address or place name
-
+            String addr = fullName+" "+city+" "+"North Macedonia"; // Replace with your address or place name
+            String encodedPlaceName = URLEncoder.encode(addr, StandardCharsets.UTF_8.toString());
+        System.out.println(addr);
             // Construct the URL for the Nominatim API
-            String apiUrl = "https://nominatim.openstreetmap.org/search?format=json&q=" + addr + "&accept-language=en";
+
+            String apiUrl = "https://nominatim.openstreetmap.org/search?format=json&q=" + encodedPlaceName + "&accept-language=en";
+
             URL url = new URL(apiUrl);
 
             // Open a connection to the URL
@@ -59,4 +61,5 @@ public class GeocodingServiceImpl implements GeocodingService {
             }
             return new Coordinates();
     }
+
 }

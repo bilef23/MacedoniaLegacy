@@ -24,8 +24,8 @@ public class LocationController {
     @PostMapping("/receiveLoc")
     public String receiveLocation(@RequestParam String latitude,
                                   @RequestParam String longitude,
-                                  @RequestParam String placeId) throws IOException {
-        CulturalPlace place=culturalPlaceService.findById(Long.getLong(placeId));
+                                  @RequestParam Long placeId) throws IOException {
+        CulturalPlace place=culturalPlaceService.findById(placeId);
         Coordinates c=geocodingService.getCoordinates(place);
         System.out.println(c.getLatitude()+" "+c.getLongitude());
         return "redirect:/places";

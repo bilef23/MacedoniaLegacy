@@ -114,7 +114,7 @@
                     const longitude = position.coords.longitude;
 
                     console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
-                    sendLocationToServer(latitude,longitude,ID)
+                    sendLocation(latitude,longitude,ID)
                 },
                 function(error) {
                     console.error(`Error getting location: ${error.message}`);
@@ -125,15 +125,14 @@
             console.error("Geolocation is not supported by this browser.");
         }
     }
-    function sendLocationToServer(latitude, longitude, placeId) {
+    function sendLocation(latitude, longitude, placeId) {
         var xhr = new XMLHttpRequest();
         console.log("OK")
         xhr.open("POST", "/loc/receiveLoc", true);
 
-        // Set the Content-Type header to indicate that the request payload is in form data format
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
-        // Convert the data to a URL-encoded string
+        // Converting the data to a URL-encoded string
         var data = "latitude=" + encodeURIComponent(latitude) +
             "&longitude=" + encodeURIComponent(longitude) +
             "&placeId=" + encodeURIComponent(placeId);
