@@ -56,4 +56,9 @@ public class CulturalPlaceServiceImpl implements CulturalPlaceService {
         return filtered;
     }
 
+    @Override
+    public CulturalPlace findById(Long id) {
+        return culturalPlaceRepository.findById(id).get();
+    }
+
 }
