@@ -9,8 +9,13 @@ body {
 .container {
     display: flex;
     min-height: 100vh;
+    z-index: 1;
+    display: block;
 }
-
+#map{
+    height: 400px;
+    width: 100%;
+}
 .login-container {
     width: 40%;
     display: flex;
@@ -288,7 +293,6 @@ option:hover {
 }
 
 .imgWrapper {
-    background: url("../image/aisle2_1.jpg") no-repeat;
     background-size: cover;
     border-left: 1px solid whitesmoke;
     height: 750px;
