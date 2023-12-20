@@ -4,17 +4,19 @@
     <meta charset="UTF-8">
     <title>Home</title>
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-    <script src="/jquery/jquery.js"></script>
-    <script src="/jquery/jquery-ui.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="/style.css" rel="stylesheet">
-    <script src="/javascript/script.js"></script>
     <link href='https://fonts.googleapis.com/css?family=Actor' rel='stylesheet'>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
 
 </head>
 <body id="index-body">
-
+<div id="map" ></div>
 <div class="welcomePart">
     <div class="wrapper">
         <h1 id="index-logo">
@@ -78,6 +80,7 @@
                 <a target="_blank"  class="tableButton"><i class="material-icons"
                                                                                            style="font-size: 30px" th:onclick="'getCoordinates(' + ${place.getId()} + ')'">&#xe0c8;</i></a>
             </div>
+
             <div class="separateResult button">
                 <button class="tableButton" onclick="show()"><i class="fa">&#xf05a;</i></button>
                 <div class="side cardVisible" id="card" style="display: none" >
@@ -90,21 +93,13 @@
         </div>
     </div>
 </div>
+
 <button id="myBtn" title="Go to top">↑</button>
 <script>
-    function show() {
-        var element = document.getElementById("card");
-        console.log("ok")
-        console.log(element)
-        if (element) {
-            element.style.display="block"
-            // Toggle the "cardVisible" class
-            element.classList.toggle("cardVisible");
-            element.classList.toggle("card")
-        }
-    }
-    //console.log() is used for finding the bug (if it exists)
-    //using navigator for getting the coordinates of the user (if the user allows)
+        // Leaflet map initialization code here
+
+
+
     function getCoordinates(ID){
 
         if (navigator.geolocation) {
@@ -112,7 +107,11 @@
                 function(position) {
                     const latitude = position.coords.latitude;
                     const longitude = position.coords.longitude;
-
+                    var map = L.map('map').setView([latitude, longitude], 13);
+                    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        maxZoom: 19,
+                        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                    }).addTo(map);
                     console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
                     sendLocation(latitude,longitude,ID)
                 },
@@ -126,24 +125,73 @@
         }
     }
     function sendLocation(latitude, longitude, placeId) {
-        var xhr = new XMLHttpRequest();
-        console.log("OK")
-        xhr.open("POST", "/loc/receiveLoc", true);
-
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
         // Converting the data to a URL-encoded string
-        var data = "latitude=" + encodeURIComponent(latitude) +
-            "&longitude=" + encodeURIComponent(longitude) +
-            "&placeId=" + encodeURIComponent(placeId);
+        var data = new URLSearchParams();
+        data.append('latitude', latitude);
+        data.append('longitude', longitude);
+        data.append('placeId', placeId);
 
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                console.log(xhr.responseText);
+        fetch('/loc/receiveLoc', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: data,
+        })
+            .then(
+                response =>{
+                    // Log the entire response (headers and body)
+                    return response.text();
+                })  // Parse the response as JSON
+            .then(responseText => {
+                // Handle the JSON response as needed
+                console.log(responseText);
+                var jsonResponse = JSON.parse(responseText);
+                console.log(jsonResponse)
+                // Assuming the response contains latitude and longitude
+                var receivedLatitude = jsonResponse.latitude;
+                var receivedLongitude = jsonResponse.longitude;
+
+                showMap(latitude,longitude,receivedLatitude, receivedLongitude);
+                // Show the map with the received coordinates
+            })
+            .catch(error => {
+                console.error('Error sending location data:', error);
+            });
+    }
+
+
+    // ... (rest of your script) ...
+
+    function showMap(startLatitude, startLongitude, endLatitude, endLongitude) {
+        var startCoords = [startLatitude, startLongitude];
+        var endCoords = [endLatitude, endLongitude];
+
+        // Clear existing layers
+        map.eachLayer(function (layer) {
+            if (layer instanceof L.TileLayer || layer instanceof L.Marker) {
+                map.removeLayer(layer);
             }
-        };
+        });
 
-        xhr.send(data);
+        // Add new tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Add start and end markers
+        L.marker(startCoords).addTo(map).bindPopup('Start Location');
+        L.marker(endCoords).addTo(map).bindPopup('End Location');
+
+        // Create a routing control and add it to the map
+        L.Routing.control({
+            waypoints: [
+                L.latLng(startCoords),
+                L.latLng(endCoords)
+            ],
+            routeWhileDragging: true
+        }).addTo(map);
     }
 </script>
 </body>
