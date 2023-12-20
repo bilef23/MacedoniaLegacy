@@ -5,14 +5,13 @@ import mk.finki.ukim.diansproject.model.CulturalPlace;
 import mk.finki.ukim.diansproject.service.CulturalPlaceService;
 import mk.finki.ukim.diansproject.service.GeocodingService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
 @Controller
 @RequestMapping("/loc")
+@CrossOrigin(origins = "http://localhost:9090")
 public class LocationController {
     private final CulturalPlaceService culturalPlaceService;
     private final GeocodingService geocodingService;
@@ -22,12 +21,13 @@ public class LocationController {
         this.geocodingService = geocodingService;
     }
     @PostMapping("/receiveLoc")
+    @ResponseBody
     public String receiveLocation(@RequestParam String latitude,
                                   @RequestParam String longitude,
                                   @RequestParam Long placeId) throws IOException {
         CulturalPlace place=culturalPlaceService.findById(placeId);
-        Coordinates c=geocodingService.getCoordinates(place);
-        System.out.println(c.getLatitude()+" "+c.getLongitude());
-        return "redirect:/places";
+        String c=geocodingService.getCoordinates(place);
+        System.out.println(c);
+        return c;
     }
 }
