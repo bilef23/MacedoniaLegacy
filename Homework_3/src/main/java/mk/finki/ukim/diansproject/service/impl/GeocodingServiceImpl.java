@@ -2,7 +2,6 @@ package mk.finki.ukim.diansproject.service.impl;
 
 import mk.finki.ukim.diansproject.model.CulturalPlace;
 import mk.finki.ukim.diansproject.service.GeocodingService;
-import mk.finki.ukim.diansproject.model.Coordinates;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
@@ -16,7 +15,7 @@ import java.util.Scanner;
 public class GeocodingServiceImpl implements GeocodingService {
 
     @Override
-    public Coordinates getCoordinates(CulturalPlace place) throws IOException {
+    public String getCoordinates(CulturalPlace place) throws IOException {
 
             String fullName=place.getName();
             String city=place.getLocation();
@@ -55,11 +54,13 @@ public class GeocodingServiceImpl implements GeocodingService {
                 // Print the coordinates
                 System.out.println("Latitude: " + latitude);
                 System.out.println("Longitude: " + longitude);
-                return new Coordinates(longitude,latitude);
+                //return new Coordinates(longitude,latitude);
+                return "{\"latitude\": "+latitude+", \"longitude\": "+longitude+" }";
             } else {
                 System.out.println("No results found for the given address.");
             }
-            return new Coordinates();
+            return " ";
+
     }
 
 }
