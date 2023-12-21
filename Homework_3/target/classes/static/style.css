@@ -9,8 +9,6 @@ body {
 .container {
     display: flex;
     min-height: 100vh;
-    z-index: 1;
-    display: block;
 }
 #map-container{
     position: relative;
