@@ -13,10 +13,18 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
             integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
             crossorigin=""></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
 
 </head>
 <body id="index-body">
-<div id="map" ></div>
+<div id="map-container">
+    <div id="map"></div>
+    <button id="close-btn" onclick="closeMap()">Close</button>
+</div>
+
 <div class="welcomePart">
     <div class="wrapper">
         <h1 id="index-logo">
@@ -98,7 +106,12 @@
 <script>
         // Leaflet map initialization code here
 
-
+        var routingControl;
+        var map = L.map('map')
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
 
     function getCoordinates(ID){
 
@@ -107,11 +120,6 @@
                 function(position) {
                     const latitude = position.coords.latitude;
                     const longitude = position.coords.longitude;
-                    var map = L.map('map').setView([latitude, longitude], 13);
-                    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        maxZoom: 19,
-                        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                    }).addTo(map);
                     console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
                     sendLocation(latitude,longitude,ID)
                 },
@@ -167,31 +175,42 @@
     function showMap(startLatitude, startLongitude, endLatitude, endLongitude) {
         var startCoords = [startLatitude, startLongitude];
         var endCoords = [endLatitude, endLongitude];
-
+        div_el=document.getElementById("map")
+        div_el.style.display="block"
+        document.getElementById("close-btn").style.display="block"
         // Clear existing layers
         map.eachLayer(function (layer) {
-            if (layer instanceof L.TileLayer || layer instanceof L.Marker) {
+            if (layer instanceof L.Marker || layer === routingControl) {
                 map.removeLayer(layer);
             }
         });
-
-        // Add new tile layer
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
-
+        var midPoint = [
+            (startCoords[0] + endCoords[0]) / 2,
+            (startCoords[1] + endCoords[1]) / 2
+        ];
         // Add start and end markers
         L.marker(startCoords).addTo(map).bindPopup('Start Location');
         L.marker(endCoords).addTo(map).bindPopup('End Location');
 
-        // Create a routing control and add it to the map
-        L.Routing.control({
-            waypoints: [
-                L.latLng(startCoords),
-                L.latLng(endCoords)
-            ],
-            routeWhileDragging: true
-        }).addTo(map);
+        // Update or create routing control
+        if (routingControl) {
+            routingControl.setWaypoints([L.latLng(startCoords), L.latLng(endCoords)]);
+        } else {
+            // Create a new routing control
+            routingControl = L.Routing.control({
+                waypoints: [
+                    L.latLng(startCoords),
+                    L.latLng(endCoords)
+                ],
+                routeWhileDragging: true
+            }).addTo(map);
+        }
+        map.setView(midPoint, 13);
+    }
+    function closeMap(){
+        div_el=document.getElementById("map").style.display="none"
+        document.getElementById("close-btn").style.display="none"
+
     }
 </script>
 </body>
