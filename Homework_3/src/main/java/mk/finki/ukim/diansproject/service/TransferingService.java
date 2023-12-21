@@ -6,4 +6,5 @@ import java.io.IOException;
 
 public interface TransferingService {
     void processAndSave(String csvPath) throws CsvValidationException, IOException;
+    void readCoordinatesFromJSON(String jsonPath) throws IOException;
 }

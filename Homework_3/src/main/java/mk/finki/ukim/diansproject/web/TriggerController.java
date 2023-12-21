@@ -22,4 +22,8 @@ public class TriggerController {
     public void triggerProcess() throws CsvValidationException, IOException {
         transferingService.processAndSave("src/main/java/mk/finki/ukim/diansproject/PipeAndFilter/Files/final.csv");
     }
+    @GetMapping("/triggerCoordinates")
+    public void obtainCoordinatesFromJSON() throws IOException {
+        transferingService.readCoordinatesFromJSON("Homework_3/src/main/java/mk/finki/ukim/diansproject/PipeAndFilter/Files/export.geojson");
+    }
 }
