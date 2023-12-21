@@ -61,4 +61,9 @@ public class CulturalPlaceServiceImpl implements CulturalPlaceService {
         return culturalPlaceRepository.findById(id).get();
     }
 
+    @Override
+    public CulturalPlace findCulturalPlaceByName(String name) {
+        return findCulturalPlaceByName(name);
+    }
+
 }

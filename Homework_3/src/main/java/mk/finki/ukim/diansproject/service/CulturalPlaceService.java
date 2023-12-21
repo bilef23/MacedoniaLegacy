@@ -9,4 +9,5 @@ public interface CulturalPlaceService {
     List<CulturalPlace> findAll();
     List<CulturalPlace> filter(String name,String category,String location) throws IOException, InterruptedException;
     CulturalPlace findById(Long id);
+    CulturalPlace findCulturalPlaceByName(String name);
 }
