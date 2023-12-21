@@ -86,7 +86,7 @@
             <div class="separateResult inRow" th:text="${place.getLocation()}"></div>
             <div class="separateResult">
                 <a target="_blank"  class="tableButton"><i class="material-icons"
-                                                                                           style="font-size: 30px" th:onclick="'getCoordinates(' + ${place.getId()} + ')'">&#xe0c8;</i></a>
+                                                                                           style="font-size: 30px" th:onclick="'sendLocation(' + ${place.getId()} + ')'">&#xe0c8;</i></a>
             </div>
 
             <div class="separateResult button">
@@ -112,16 +112,15 @@
             maxZoom: 19,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
-
-    function getCoordinates(ID){
+        var latitude
+        var longitude
 
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 function(position) {
-                    const latitude = position.coords.latitude;
-                    const longitude = position.coords.longitude;
+                     latitude = position.coords.latitude;
+                     longitude = position.coords.longitude;
                     console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
-                    sendLocation(latitude,longitude,ID)
                 },
                 function(error) {
                     console.error(`Error getting location: ${error.message}`);
@@ -131,13 +130,11 @@
         } else {
             console.error("Geolocation is not supported by this browser.");
         }
-    }
-    function sendLocation(latitude, longitude, placeId) {
+
+    function sendLocation(placeId) {
 
         // Converting the data to a URL-encoded string
         var data = new URLSearchParams();
-        data.append('latitude', latitude);
-        data.append('longitude', longitude);
         data.append('placeId', placeId);
 
         fetch('/loc/receiveLoc', {
@@ -175,6 +172,8 @@
     function showMap(startLatitude, startLongitude, endLatitude, endLongitude) {
         var startCoords = [startLatitude, startLongitude];
         var endCoords = [endLatitude, endLongitude];
+        console.log(startCoords)
+        console.log(endCoords)
         div_el=document.getElementById("map")
         div_el.style.display="block"
         document.getElementById("close-btn").style.display="block"
@@ -205,7 +204,7 @@
                 routeWhileDragging: true
             }).addTo(map);
         }
-        map.setView(midPoint, 13);
+        map.setView([startLatitude,endLongitude], 13);
     }
     function closeMap(){
         div_el=document.getElementById("map").style.display="none"
