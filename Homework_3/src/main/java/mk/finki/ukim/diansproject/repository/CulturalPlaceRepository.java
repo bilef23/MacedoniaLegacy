@@ -17,5 +17,5 @@ public interface CulturalPlaceRepository extends JpaRepository<CulturalPlace, Lo
     List<CulturalPlace> findCulturalPlacesByCategoryAndLocation(String category,String location);
     List<CulturalPlace> findCulturalPlacesByLocationAndNameLike(String location,String name);
     List<CulturalPlace> findCulturalPlacesByCategoryAndLocationAndNameLike(String category,String location,String name);
-    CulturalPlace findCulturalPlaceByName(String name);
+    List<CulturalPlace> findCulturalPlaceByNameEquals(String name);
 }
