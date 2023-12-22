@@ -25,6 +25,12 @@ public class CulturalPlaceController {
         this.culturalPlaceService = culturalPlaceService;
     }
 
+    @PostMapping("/places/{id}/delete")
+    public String delete(@PathVariable Long id) {
+      //  this.culturalPlaceService.delete(id);  TO DO
+        return "redirect:/places";
+    }
+
     @GetMapping("/places")
     public String getMainPage(Model model) throws IOException, CsvException {
         model.addAttribute("places",culturalPlaceService.findAll());
