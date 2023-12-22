@@ -3,14 +3,17 @@ package mk.finki.ukim.diansproject.service.impl;
 import mk.finki.ukim.diansproject.model.User;
 import mk.finki.ukim.diansproject.repository.UserRepository;
 import mk.finki.ukim.diansproject.service.UserService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -32,7 +35,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void addUser(String name, String username, String email, String password) {
         if(!name.isEmpty() && !username.isEmpty() && !email.isEmpty() && !password.isEmpty()){
-            userRepository.save(new User(name,username,password,email));
+            userRepository.save(new User(name,username,passwordEncoder.encode(password),email));
         }
     }
 }
