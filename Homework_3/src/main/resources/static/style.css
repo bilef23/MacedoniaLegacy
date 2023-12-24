@@ -26,7 +26,7 @@ body {
     padding-bottom: 20px;
     display: none;
 }
-#close-btn2{
+#close-btn2, #close-btn3{
     position: fixed;
     top: 50%; /* Adjust the vertical position as needed */
     left: 50%;
@@ -589,9 +589,11 @@ h2, label, .comment {
 }
 
 .rate {
+    margin-left:60px;
     float: left;
     height: 46px;
     padding: 0 10px;
+    align-content: center;
 }
 {
     clear: both;
