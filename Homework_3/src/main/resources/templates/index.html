@@ -140,8 +140,8 @@
                         <label>RATE, COMMENT, SHARE</label>
                         <hr>
                         <form th:method="POST" th:action="@{'/reviews/add-review/{id}' (id=${place.getId()})}"></form>
-                        <input type="hidden" id="user" name="user"/>
-                        <input type="hidden" id="place" name="place" />
+                        <input type="hidden" id="user" name="user" th:value="${loggedInUser}" />
+                        <input type="hidden" id="place" name="place" th:value="${place.getId()}" />
                         <div class="rate">
                             <br>
                             <input type="radio" id="star5" name="rate" value="5" />
@@ -161,8 +161,8 @@
                         </div>
                         <hr>
                         <button type="submit">Share your experience</button>
-                        <button id="close-btn3" onclick="closeReview()">Close</button>
                     </div>
+                    <button id="close-btn3" onclick="closeReview()">Close</button>
                 </div>
             </div></div>
     </div>
