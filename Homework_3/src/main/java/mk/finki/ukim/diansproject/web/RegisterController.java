@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping()
+@RequestMapping("/register")
 public class RegisterController {
     private final AuthService authService;
     private final UserService userService;
@@ -24,7 +24,7 @@ public class RegisterController {
         this.userService = userService;
     }
 
-    @GetMapping("/register")
+    @GetMapping()
     public String getRegisterPage(@RequestParam(required = false) String error, Model model) {
         if(error != null && !error.isEmpty()) {
             model.addAttribute("hasError", true);
@@ -34,7 +34,7 @@ public class RegisterController {
         return "signin.html";
     }
 
-    @PostMapping("/register")
+    @PostMapping()
     public String register(@RequestParam String username,
                            @RequestParam String password,
                            @RequestParam String repeatedPassword,

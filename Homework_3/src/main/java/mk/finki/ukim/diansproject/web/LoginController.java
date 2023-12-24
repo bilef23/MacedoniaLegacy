@@ -14,19 +14,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping()
+@RequestMapping("/login")
 public class LoginController {
     private final AuthService authService;
     public LoginController(AuthService authService) {
         this.authService = authService;
     }
 
-    @GetMapping(value = {"/","/login"})
+    @GetMapping()
     public String getLoginPage() {
         return "login.html";
     }
 
-    @PostMapping("/login")
+    @PostMapping()
     public String login(HttpServletRequest request, Model model) {
         User user = null;
 
