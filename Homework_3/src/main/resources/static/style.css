@@ -451,7 +451,7 @@ option:hover {
     background: none;
     font-size: 24px;
     cursor: pointer;
-    color: #CD5E77;
+    color: black;
 }
 
 .tableButton:hover {
@@ -570,7 +570,7 @@ button.ui-button:hover {
     box-shadow: 3px 3px 3px dimgray;
 }
 .card {
-    background-color: #d74847;
+    background-color: lightpink;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -580,7 +580,7 @@ button.ui-button:hover {
 }
 
 h2, label, .comment {
-    color: pink;
+    color: black;
     font-size: 20px;
 }
 
@@ -619,12 +619,12 @@ h2, label, .comment {
 }
 
 .rate > input:checked ~ label {
-    color: pink;
+    color: #CD5E77;
 }
 
 .rate:not(:checked) > label:hover,
 .rate:not(:checked) > label:hover ~ label {
-    color: pink;
+    color: #CD5E77;
 }
 
 .rate > input:checked + label:hover,
@@ -632,7 +632,7 @@ h2, label, .comment {
 .rate > input:checked ~ label:hover,
 .rate > input:checked ~ label:hover ~ label,
 .rate > label:hover ~ input:checked ~ label {
-    color: pink;
+    color: #CD5E77;
 
 }
 #number label,

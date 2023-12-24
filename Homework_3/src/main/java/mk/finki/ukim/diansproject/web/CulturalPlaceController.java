@@ -2,9 +2,11 @@ package mk.finki.ukim.diansproject.web;
 
 import com.opencsv.exceptions.CsvException;
 import mk.finki.ukim.diansproject.model.CulturalPlace;
+import mk.finki.ukim.diansproject.model.User;
 import mk.finki.ukim.diansproject.model.UserReview;
 import mk.finki.ukim.diansproject.service.CulturalPlaceService;
 import mk.finki.ukim.diansproject.service.ReviewService;
+import mk.finki.ukim.diansproject.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,11 +20,13 @@ import java.util.Map;
 public class CulturalPlaceController {
     private final CulturalPlaceService culturalPlaceService;
     private final ReviewService reviewService;
+    private final UserService userService;
 
-    public CulturalPlaceController(CulturalPlaceService culturalPlaceService, ReviewService reviewService) {
+    public CulturalPlaceController(CulturalPlaceService culturalPlaceService, ReviewService reviewService, UserService userService) {
         this.culturalPlaceService = culturalPlaceService;
 
         this.reviewService = reviewService;
+        this.userService = userService;
     }
 
     @GetMapping("/places")
@@ -63,6 +67,14 @@ public class CulturalPlaceController {
      }
 
      return response;
+ }
+ @PostMapping("/reviews/add-review/{id}")
+ public String userReview(@PathVariable Long id,
+                          @RequestParam String comment,
+                          @RequestParam Integer rate){
+        CulturalPlace p=culturalPlaceService.findById(id);
+        reviewService.createReview(comment,rate,new User("b","bd","bd","bd"),p);
+        return "redirect:/places";
  }
     @GetMapping("/listPlaces")
     public String filterPlaces( String category,  String searchName, String searchLocation, Model model) throws IOException, InterruptedException {
