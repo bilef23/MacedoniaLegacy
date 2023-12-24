@@ -14,12 +14,15 @@ public class User {
     private String username;
     private String password;
     private String email;
+    @Enumerated
+    private Role role;
 
-    public User( String name, String username, String password, String email) {
+    public User( String name, String username, String password, String email, Role role) {
         this.name = name;
         this.username = username;
         this.password = password;
         this.email = email;
+        this.role=role;
     }
 
     public User() {

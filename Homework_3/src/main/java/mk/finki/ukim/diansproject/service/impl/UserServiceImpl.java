@@ -1,5 +1,6 @@
 package mk.finki.ukim.diansproject.service.impl;
 
+import mk.finki.ukim.diansproject.model.Role;
 import mk.finki.ukim.diansproject.model.User;
 import mk.finki.ukim.diansproject.repository.UserRepository;
 import mk.finki.ukim.diansproject.service.UserService;
@@ -35,7 +36,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void addUser(String name, String username, String email, String password) {
         if(!name.isEmpty() && !username.isEmpty() && !email.isEmpty() && !password.isEmpty()){
-            userRepository.save(new User(name,username,passwordEncoder.encode(password),email));
+            userRepository.save(new User(name,username,passwordEncoder.encode(password),email, Role.USER));
         }
     }
 }
