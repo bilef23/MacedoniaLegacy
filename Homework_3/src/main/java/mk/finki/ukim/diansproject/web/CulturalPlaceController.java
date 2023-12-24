@@ -2,11 +2,14 @@ package mk.finki.ukim.diansproject.web;
 
 import com.opencsv.exceptions.CsvException;
 import mk.finki.ukim.diansproject.model.CulturalPlace;
+import mk.finki.ukim.diansproject.model.Role;
 import mk.finki.ukim.diansproject.model.User;
 import mk.finki.ukim.diansproject.model.UserReview;
 import mk.finki.ukim.diansproject.service.CulturalPlaceService;
 import mk.finki.ukim.diansproject.service.ReviewService;
 import mk.finki.ukim.diansproject.service.UserService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -71,10 +74,18 @@ public class CulturalPlaceController {
  @PostMapping("/reviews/add-review/{id}")
  public String userReview(@PathVariable Long id,
                           @RequestParam String comment,
-                          @RequestParam Integer rate){
+                          @RequestParam Integer rate,
+                          @AuthenticationPrincipal UserDetails userDetails){
         CulturalPlace p=culturalPlaceService.findById(id);
-        reviewService.createReview(comment,rate,new User("b","bd","bd","bd"),p);
+        User u=(User)userService.loadUserByUsername(userDetails.getUsername());
+        reviewService.createReview(comment,rate,u,p);
         return "redirect:/places";
+ }
+ @PostMapping("/delete/{id}")
+ public String deleteObject(@PathVariable Long id){
+     CulturalPlace p=culturalPlaceService.findById(id);
+     culturalPlaceService.deleteObject(p);
+     return "redirect:/places";
  }
     @GetMapping("/listPlaces")
     public String filterPlaces( String category,  String searchName, String searchLocation, Model model) throws IOException, InterruptedException {
