@@ -66,4 +66,10 @@ public class CulturalPlaceServiceImpl implements CulturalPlaceService {
         return findCulturalPlaceByName(name);
     }
 
+    @Override
+    public void deleteObject(CulturalPlace p) {
+            culturalPlaceRepository.delete(p);
+
+    }
+
 }
