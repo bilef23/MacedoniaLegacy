@@ -17,7 +17,7 @@ public class NewPlaceController {
         this.culturalPlaceService = culturalPlaceService;
     }
 
-    @GetMapping
+    @GetMapping()
     public String showNewPlaceForm() {
         return "new_place_form.html";
     }

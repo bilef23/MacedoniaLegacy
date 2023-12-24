@@ -38,9 +38,5 @@ public class CulturalPlaceController {
             return "index.html";
     }
 
-    @GetMapping("/new-place-form")
-    public String showNewPlaceForm(Model model) {
-        model.addAttribute("newPlace", new CulturalPlace());
-        return "new_place_form.html";
-    }
+
 }

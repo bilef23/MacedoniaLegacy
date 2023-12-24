@@ -79,6 +79,11 @@
             <div class="separateResult inRow">OBJECT CATEGORY</div>
             <div class="separateResult inRow">OBJECT LOCATION</div>
             <div class="separateResult">Information</div>
+            <div class="separateResult">
+                <form action="/new-place" method="get">
+                    <button type="submit">Add new object</button>
+                </form>
+            </div>
         </div>
         <div class="row" th:each="place : ${places}">
             <div class="separateResult inRow" th:text="${place.getName()}"></div>
@@ -130,6 +135,9 @@
 
                 </div>
 
+            </div>
+            <div class="separateResult" style="display: flex; flex-direction: column;">
+                <button th:action="@{'/additional-information/{id}' (id=${place.getId()})}">Delete object</button>
             </div>
         </div>
     </div>
