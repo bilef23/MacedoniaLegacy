@@ -34,7 +34,7 @@
             <div class="search">
 
                 <select class="searchbar" name="category" style="text-align:center">
-                    <option >CHOOSE CATEGORY</option>
+                    <option value="">CHOOSE CATEGORY</option>
                     <option class="option" name="name" value="Archeological place">Archeological place</option>
                     <hr>
                     <option class="option" name="name" value="museum">Museum</option>
@@ -79,6 +79,11 @@
             <div class="separateResult inRow">OBJECT CATEGORY</div>
             <div class="separateResult inRow">OBJECT LOCATION</div>
             <div class="separateResult">Information</div>
+            <div class="separateResult">
+                <form action="/new-place" method="get">
+                    <button type="submit">Add new object</button>
+                </form>
+            </div>
         </div>
         <div class="row" th:each="place : ${places}">
             <div class="separateResult inRow" th:text="${place.getName()}"></div>
@@ -93,7 +98,7 @@
                 <a class="tableButton" th:onclick="'showCard(' + ${place.getId()} + ')'"><i class="material-icons"  style="font-size: 30px">&#xe88e;</i></a>
                 <div class="side cardVisible" id="card" style="display: none" >
                     <div class="card hidden" id="additionalInfoSection">
-                        <form th:method="GET" th:action="@{'/additional-information/{id}' (id=${place.getId()})}">
+                        <form >
 
                             <label>NUMBER:
                                 <br>
@@ -164,7 +169,14 @@
                         <button id="close-btn3" onclick="closeReview()">Close</button>
                     </div>
                 </div>
-            </div></div>
+            </div>
+            <div class="separateResult">
+                <form th:method="POST" th:action="@{'/delete/{id}' (id=${place.getId()})}">
+                    <button>Delete</button>
+                </form>
+
+            </div>
+        </div>
     </div>
 </div>
 
