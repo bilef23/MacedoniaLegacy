@@ -1,12 +1,11 @@
 package mk.finki.ukim.diansproject.service.impl;
 
-import mk.finki.ukim.diansproject.PipeAndFilter.Pipeline;
-import mk.finki.ukim.diansproject.PipeAndFilter.filterImpl.CategoryFilter;
-import mk.finki.ukim.diansproject.PipeAndFilter.filterImpl.SearchByLocation;
-import mk.finki.ukim.diansproject.PipeAndFilter.filterImpl.SearchByName;
 import mk.finki.ukim.diansproject.model.CulturalPlace;
+import mk.finki.ukim.diansproject.model.UserReview;
 import mk.finki.ukim.diansproject.repository.CulturalPlaceRepository;
+import mk.finki.ukim.diansproject.repository.ReviewRepository;
 import mk.finki.ukim.diansproject.service.CulturalPlaceService;
+import mk.finki.ukim.diansproject.service.ReviewService;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -17,9 +16,13 @@ import java.util.List;
 public class CulturalPlaceServiceImpl implements CulturalPlaceService {
 
     private final CulturalPlaceRepository culturalPlaceRepository;
+    private final ReviewService reviewService;
+    private final ReviewRepository reviewRepository;
 
-    public CulturalPlaceServiceImpl(CulturalPlaceRepository culturalPlaceRepository) {
+    public CulturalPlaceServiceImpl(CulturalPlaceRepository culturalPlaceRepository, ReviewService reviewService, ReviewRepository reviewRepository) {
         this.culturalPlaceRepository = culturalPlaceRepository;
+        this.reviewService = reviewService;
+        this.reviewRepository = reviewRepository;
     }
 
     @Override
@@ -64,6 +67,12 @@ public class CulturalPlaceServiceImpl implements CulturalPlaceService {
     @Override
     public CulturalPlace findCulturalPlaceByName(String name) {
         return findCulturalPlaceByName(name);
+    }
+
+
+    @Override
+    public void save(CulturalPlace newPlace) {
+        culturalPlaceRepository.save(newPlace);
     }
 
 }
