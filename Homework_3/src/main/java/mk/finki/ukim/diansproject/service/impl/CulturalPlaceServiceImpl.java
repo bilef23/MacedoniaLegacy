@@ -34,22 +34,22 @@ public class CulturalPlaceServiceImpl implements CulturalPlaceService {
         if(searchName.isEmpty()&& searchLocation.isEmpty()&& category!=null){
             filtered=culturalPlaceRepository.findCulturalPlacesByCategory(category);
         }
-        if(!searchName.isEmpty()&& searchLocation.isEmpty()&& category!=null){
+        if(!searchName.isEmpty()&& searchLocation.isEmpty()&& !category.isEmpty()){
             filtered=culturalPlaceRepository.findCulturalPlacesByCategoryAndNameLike(category,searchName);
         }
-        if(searchName.isEmpty()&& !searchLocation.isEmpty()&& category!=null){
+        if(searchName.isEmpty()&& !searchLocation.isEmpty()&& !category.isEmpty()){
             filtered=culturalPlaceRepository.findCulturalPlacesByCategoryAndLocation(category,searchLocation);
         }
-        if(!searchName.isEmpty()&& !searchLocation.isEmpty()&& category!=null){
+        if(!searchName.isEmpty()&& !searchLocation.isEmpty()&& !category.isEmpty()){
             filtered=culturalPlaceRepository.findCulturalPlacesByCategoryAndLocationAndNameLike(category,searchLocation,searchName);
         }
-        if(!searchName.isEmpty()&& searchLocation.isEmpty()&& category==null){
+        if(!searchName.isEmpty()&& searchLocation.isEmpty()&& category.isEmpty()){
             filtered=culturalPlaceRepository.findCulturalPlacesByNameLike(searchName);
         }
-        if(!searchName.isEmpty()&& !searchLocation.isEmpty()&& category==null){
+        if(!searchName.isEmpty()&& !searchLocation.isEmpty()&& category.isEmpty()){
             filtered=culturalPlaceRepository.findCulturalPlacesByLocationAndNameLike(searchLocation,searchName);
         }
-        if(searchName.isEmpty()&& !searchLocation.isEmpty()&& category==null){
+        if(searchName.isEmpty()&& !searchLocation.isEmpty()&& category.isEmpty()){
             filtered=culturalPlaceRepository.findCulturalPlacesByLocation(searchLocation);
         }
 
@@ -71,5 +71,11 @@ public class CulturalPlaceServiceImpl implements CulturalPlaceService {
             culturalPlaceRepository.delete(p);
 
     }
+
+    @Override
+    public void addObject(CulturalPlace p) {
+        culturalPlaceRepository.save(p);
+    }
+
 
 }

@@ -25,7 +25,7 @@ public class NewPlaceController {
     @PostMapping("/save")
     public String saveNewPlace(@RequestParam String name, @RequestParam String category, @RequestParam String location) {
         CulturalPlace newPlace = new CulturalPlace(name, category, location);
-        culturalPlaceService.save(newPlace);
+        culturalPlaceService.addObject(newPlace);
         return "redirect:/places";
     }
 }
