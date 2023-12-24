@@ -17,12 +17,12 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
     <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
-
 </head>
 <body id="index-body">
 <div id="map-container">
     <div id="map"></div>
     <button id="close-btn" onclick="closeMap()">Close</button>
+
 </div>
 
 <div class="welcomePart">
@@ -33,18 +33,18 @@
         <form action="/listPlaces" method="get">
             <div class="search">
 
-                        <select class="searchbar" name="category" style="text-align:center">
-                            <option >CHOOSE CATEGORY</option>
-                            <option class="option" name="name" value="Archeological place">Archeological place</option>
-                            <hr>
-                            <option class="option" name="name" value="museum">Museum</option>
-                            <hr>
-                            <option class="option" name="name" value="Place of worship">Place of Worship</option>
-                        </select>
+                <select class="searchbar" name="category" style="text-align:center">
+                    <option >CHOOSE CATEGORY</option>
+                    <option class="option" name="name" value="Archeological place">Archeological place</option>
+                    <hr>
+                    <option class="option" name="name" value="museum">Museum</option>
+                    <hr>
+                    <option class="option" name="name" value="Place of worship">Place of Worship</option>
+                </select>
 
 
-                        <input class="searchbar" type="text" id="searchName" name="searchName" placeholder="WRITE OBJECT NAME">
-                        <input class="searchbar" type="text" id="searchLocation"name="searchLocation" placeholder="WRITE LOCATION">
+                <input class="searchbar" type="text" id="searchName" name="searchName" placeholder="WRITE OBJECT NAME">
+                <input class="searchbar" type="text" id="searchLocation"name="searchLocation" placeholder="WRITE LOCATION">
 
 
                 <div >
@@ -86,50 +86,116 @@
             <div class="separateResult inRow" th:text="${place.getLocation()}"></div>
             <div class="separateResult">
                 <a target="_blank"  class="tableButton"><i class="material-icons"
-                                                                                           style="font-size: 30px" th:onclick="'sendLocation(' + ${place.getId()} + ')'">&#xe0c8;</i></a>
+                                                           style="font-size: 30px" th:onclick="'sendLocation(' + ${place.getId()} + ')'">&#xe0c8;</i></a>
             </div>
 
             <div class="separateResult button">
-                <button class="tableButton" onclick="show()"><i class="fa">&#xf05a;</i></button>
+                <a class="tableButton" th:onclick="'showCard(' + ${place.getId()} + ')'"><i class="material-icons"  style="font-size: 30px">&#xe88e;</i></a>
                 <div class="side cardVisible" id="card" style="display: none" >
-                    <span class="additionalInfoTitle">ADDITIONAL INFO:</span> <br>
-                    <label><span class="additionalInfoTitle">review: </span> </label> <br>
-                        <label><span class="additionalInfoTitle">rating: </span> </label>
-                    <br>
+                    <div class="card hidden" id="additionalInfoSection">
+                        <form th:method="GET" th:action="@{'/additional-information/{id}' (id=${place.getId()})}">
+
+                            <label>NUMBER:
+                                <br>
+                                <div><div id="number">
+                                    <span th:if="${number ne null}" th:text="${number}"></span>
+                                    <span th:unless="${number ne null}">/</span>
+                                </div>
+                                </div>
+                            </label>
+                            <br>
+                            <br>
+                            <hr>
+                            <div>
+                                <label >RATING:
+                                    <div id="rating">
+                                        <span th:text="${rating} + ' STARS'"></span>
+                                    </div>
+                                </label>
+                            </div>
+                            <br>
+                            <br>
+                            <hr>
+                            <div>
+                                <label>REVIEW:
+                                    <div id="review">
+                                        <span th:text="${reviews}"></span>
+                                    </div>
+                                    <br>
+                                    <br></label>
+                            </div>
+                        </form><button id="close-btn2" onclick="closeInfo()">Close</button>
+
+                    </div>
+
                 </div>
-            </div>
-        </div>
+
+            </div >
+            <div class="separateResult button"><a  class="tableButton" onclick="addReview()">
+                <i class="material-icons"  style="font-size: 30px" >&#xe560;</i></a>
+                <div style="display: none" id="addReview" class ="cardVisible">
+                    <div class="card hidden"  >
+                        <h2 th:text="${error} != null ? ${error} : ''"></h2>
+
+                        <label style="color: black">RATE, COMMENT, SHARE</label>
+                        <hr>
+                        <form th:method="POST" th:action="@{'/reviews/add-review/{id}' (id=${place.getId()})}">
+
+                        <div class="rate">
+                            <br>
+                            <input type="radio" id="star5" name="rate" value="5" />
+                            <label for="star5" title="text">5 stars</label>
+                            <input type="radio" id="star4" name="rate" value="4" />
+                            <label for="star4" title="text">4 stars</label>
+                            <input type="radio" id="star3" name="rate" value="3" />
+                            <label for="star3" title="text">3 stars</label>
+                            <input type="radio" id="star2" name="rate" value="2" />
+                            <label for="star2" title="text">2 stars</label>
+                            <input type="radio" id="star1" name="rate" value="1" />
+                            <label for="star1" title="text">1 star</label>
+                        </div>
+                        <div class="comment">
+                            <input id="comment" type="text" name="comment" placeholder="Leave comment:"/>
+                            <br/>
+                        </div>
+                        <hr>
+                        <button type="submit">Share your experience</button>
+                        </form>
+                        <button id="close-btn3" onclick="closeReview()">Close</button>
+                    </div>
+                </div>
+            </div></div>
     </div>
 </div>
 
 <button id="myBtn" title="Go to top">↑</button>
 <script>
-        // Leaflet map initialization code here
+    // Leaflet map initialization code here
 
-        var routingControl;
-        var map = L.map('map')
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo(map);
-        var latitude
-        var longitude
+    var routingControl;
+    var map = L.map('map')
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+    var latitude
+    var longitude
 
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                function(position) {
-                     latitude = position.coords.latitude;
-                     longitude = position.coords.longitude;
-                    console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
-                },
-                function(error) {
-                    console.error(`Error getting location: ${error.message}`);
-                    console.error(`Error code: ${error.code}`);
-                }
-            );
-        } else {
-            console.error("Geolocation is not supported by this browser.");
-        }
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            function(position) {
+                latitude = position.coords.latitude;
+                longitude = position.coords.longitude;
+                console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+            },
+            function(error) {
+                console.error(`Error getting location: ${error.message}`);
+                console.error(`Error code: ${error.code}`);
+            }
+        );
+    } else {
+        console.error("Geolocation is not supported by this browser.");
+    }
 
     function sendLocation(placeId) {
 
@@ -210,6 +276,92 @@
         div_el=document.getElementById("map").style.display="none"
         document.getElementById("close-btn").style.display="none"
 
+    }
+    function showCard(placeId) {
+
+        // Get the card element by ID
+        var card = document.getElementById("card");
+
+        // Check if the card is hidden or displayed
+        if (card.style.display === "none" || card.style.display === "") {
+            // Card is hidden, show it
+
+
+            // Replace 'PLACE_ID' with the actual ID you want to pass to the controller
+            var fetchUrl = '/additional-information/' + placeId;
+            console.log("the id 1: is ",placeId)
+            console.log('showCard function called with placeId:', placeId);
+            console.log('Fetch URL:', fetchUrl);
+            // Perform a GET request to /additional-information/{id}
+            fetch(fetchUrl, {
+                method: 'GET'
+            })
+                .then(response => {
+                    // Check if the response status is OK (200)
+                    if (response.ok) {
+                        // Convert the response to HTML
+                        return response.json();
+                    } else {
+                        console.error('Failed to fetch additional information.');
+                        return Promise.reject('Failed to fetch additional information.');
+                    }
+                })
+                .then(serverData => {
+                    // Handle the data received from the server
+                    console.log("data recieved from the ",serverData, serverData.number)
+                    // Check if there's an error in the response
+                    if (serverData.error) {
+                        console.error('Error:', serverData.error);
+                        // Handle the error, for example, display an error message in the card
+                        card.innerHTML = `<p>Error: ${serverData.error}</p>`;
+                    } else {
+
+                        // Update the content of the card with the returned data
+                        var numberElement = document.getElementById("number");
+                        var ratingElement = document.getElementById("rating");
+                        var reviewElement = document.getElementById("review");
+                        if (serverData.number != null) {
+                            numberElement.innerText = serverData.number;
+                        } else {
+                            numberElement.innerText = "/";
+                        }
+                        var numberValue = serverData.number;
+                        console.log("The number is", numberValue);
+                        ratingElement.innerText = serverData.rating
+                        reviewElement.innerText = serverData.reviews;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error during the GET request:', error);
+                });
+
+            // Set the card to be visible
+            card.style.display = "block";
+        } else {
+            // Card is displayed, hide it
+            card.style.display = "none";
+        }
+    }
+    function closeInfo() {
+        var card = document.getElementById("card");
+        if (card.style.display === "block") {
+            card.style.display = "none";
+        }
+    }
+    function closeReview() {
+        var card = document.getElementById("addReview");
+        if (card.style.display === "block") {
+            card.style.display = "none";
+        }
+    }
+    function addReview() {
+        var reviewForm = document.getElementById("addReview");
+        if (reviewForm.style.display === "none" || reviewForm.style.display === "") {
+            reviewForm.style.display = "block";
+        } else {
+            reviewForm.style.display = "none";
+        }
+        console.log("appear")
     }
 </script>
 </body>

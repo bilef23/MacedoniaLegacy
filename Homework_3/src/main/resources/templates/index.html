@@ -137,11 +137,10 @@
                     <div class="card hidden"  >
                         <h2 th:text="${error} != null ? ${error} : ''"></h2>
 
-                        <label>RATE, COMMENT, SHARE</label>
+                        <label style="color: black">RATE, COMMENT, SHARE</label>
                         <hr>
-                        <form th:method="POST" th:action="@{'/reviews/add-review/{id}' (id=${place.getId()})}"></form>
-                        <input type="hidden" id="user" name="user"/>
-                        <input type="hidden" id="place" name="place" />
+                        <form th:method="POST" th:action="@{'/reviews/add-review/{id}' (id=${place.getId()})}">
+
                         <div class="rate">
                             <br>
                             <input type="radio" id="star5" name="rate" value="5" />
@@ -161,6 +160,7 @@
                         </div>
                         <hr>
                         <button type="submit">Share your experience</button>
+                        </form>
                         <button id="close-btn3" onclick="closeReview()">Close</button>
                     </div>
                 </div>
