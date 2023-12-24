@@ -5,7 +5,7 @@
     <title>Home</title>
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="/style.css" rel="stylesheet">
+    <link th:href="@{/style.css}" type="text/css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Actor' rel='stylesheet'>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
           integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
@@ -151,9 +151,9 @@
                 })  // Parse the response as JSON
             .then(responseText => {
                 // Handle the JSON response as needed
-                console.log(responseText);
+
                 var jsonResponse = JSON.parse(responseText);
-                console.log(jsonResponse)
+
                 // Assuming the response contains latitude and longitude
                 var receivedLatitude = jsonResponse.latitude;
                 var receivedLongitude = jsonResponse.longitude;
@@ -172,7 +172,6 @@
     function showMap(startLatitude, startLongitude, endLatitude, endLongitude) {
         var startCoords = [startLatitude, startLongitude];
         var endCoords = [endLatitude, endLongitude];
-        console.log(startCoords)
         console.log(endCoords)
         div_el=document.getElementById("map")
         div_el.style.display="block"

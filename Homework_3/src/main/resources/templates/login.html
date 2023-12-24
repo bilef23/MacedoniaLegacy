@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <title>Login Page</title>
-    <link rel="stylesheet" href="/style.css">
+    <link th:href="@{/style.css}" type="text/css" rel="stylesheet">
 </head>
 <body>
     <div class="container">
@@ -17,17 +16,18 @@
                     <span class="highlight">Macedonian</span>HeritageHub
                 </h3>
                 <form action="/login" method="POST">
-                    <label for="email">EMAIL OR USERNAME</label>
-                    <input  id="email" name="email" placeholder="Email" required>
+                    <label for="email">USERNAME</label>
+                    <input  id="email" name="username" placeholder="Email" required>
 
                     <label for="password">PASSWORD</label>
                     <input type="password" id="password" name="password" placeholder="Password" required>
-
+                    <div th:if="${param.error}" th:text="${param.error}" class="text-danger"></div>
                     <button id="login-button" type="submit">LOGIN</button>
                 </form>
+                <form action="/register" method="get">
+                    <button type="submit" id="create-btn"> Create an account   <i class="fas fa-arrow-right button-icon"></i> </button>
+                </form>
 
-                   <a href="/signin"> Create an account   <i class="fas fa-arrow-right button-icon"></i> </a>
-                
             </div>
         </div>
 
