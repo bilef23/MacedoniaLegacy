@@ -35,9 +35,9 @@ body {
     right: 0;
     bottom: 0;
     z-index: 1000;
-   width: 70px;
+    width: 70px;
     height: 40px;
-    margin-top: 19%;
+    margin-top: 18%;
     border-radius: 8px;
     background-color: #CD5E77;
     font-size: 13px;
@@ -129,7 +129,7 @@ hr{
     color: white;
     margin-left: 80px;
 }
-a{
+#create-btn{
     text-decoration: none;
     color: black;
     font-weight: bold;
