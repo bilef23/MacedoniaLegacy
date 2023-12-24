@@ -26,7 +26,22 @@ body {
     padding-bottom: 20px;
     display: none;
 }
-
+#close-btn2{
+    position: fixed;
+    top: 50%; /* Adjust the vertical position as needed */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    width: 70px;
+    height: 40px;
+    margin-top: 19%;
+    border-radius: 8px;
+    background-color: #CD5E77;
+    font-size: 13px;
+    border: 1px solid #F4C2C2;
+}
 #close-btn{
     position: fixed;
     top: 50%; /* Adjust the vertical position as needed */
@@ -35,7 +50,7 @@ body {
     right: 0;
     bottom: 0;
     z-index: 1000;
-   width: 70px;
+    width: 70px;
     height: 40px;
     margin-top: 19%;
     border-radius: 8px;
@@ -86,20 +101,20 @@ input {
 }
 
 .form {
-    width: 100%; 
-    max-width: 400px; 
+    width: 100%;
+    max-width: 400px;
     margin: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    
+
 }
 
 .image {
     flex: 1;
     background: url('login.jpg') center/cover no-repeat;
-    width: 60%; 
-    
+    width: 60%;
+
 }
 
 
@@ -108,7 +123,7 @@ hr{
     width: 250px;
     border: 2px solid black;
     margin-top: -35px;
-    
+
 }
 .logo .highlight{
     color: red;
@@ -553,4 +568,74 @@ button.ui-button:hover {
     background: #CD5E77;
     transition: 0.5s;
     box-shadow: 3px 3px 3px dimgray;
+}
+.card {
+    background-color: #d74847;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    height:300px;
+    width: 300px;
+}
+
+h2, label, .comment {
+    color: pink;
+    font-size: 20px;
+}
+
+.rate, .comment {
+    margin-bottom: 10px;
+}
+
+.rate {
+    float: left;
+    height: 46px;
+    padding: 0 10px;
+}
+{
+    clear: both;
+}
+
+.rate:not(:checked) > input {
+    position: absolute;
+    top: -9999px;
+}
+
+.rate:not(:checked) > label {
+    float: right;
+    width: 1em;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
+    font-size: 30px;
+    color: white;
+}
+
+.rate:not(:checked) > label:before {
+    content: '★ ';
+}
+
+.rate > input:checked ~ label {
+    color: pink;
+}
+
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+    color: pink;
+}
+
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+    color: pink;
+
+}
+#number label,
+#rating label,
+#review label {
+    font-size: 14px;
+    color: #555;
 }
