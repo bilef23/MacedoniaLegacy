@@ -25,7 +25,7 @@ public class CulturalPlaceController {
         this.culturalPlaceService = culturalPlaceService;
     }
 
-    @GetMapping("/places")
+    @GetMapping(value={"/","/places"})
     public String getMainPage(Model model) throws IOException, CsvException {
         model.addAttribute("places",culturalPlaceService.findAll());
         return "index.html";
