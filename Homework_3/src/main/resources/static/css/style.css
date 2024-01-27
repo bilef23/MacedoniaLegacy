@@ -16,7 +16,7 @@ body {
 #map{
     height: 50%;
     width: 50%;
-    top: 50%;
+    top: 50%; /* Adjust the vertical position as needed */
     left: 50%;
     transform: translate(-50%, -50%);
     position: fixed;
@@ -26,10 +26,25 @@ body {
     padding-bottom: 20px;
     display: none;
 }
-
+#close-btn2, #close-btn3{
+    position: fixed;
+    top: 50%; /* Adjust the vertical position as needed */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    width: 70px;
+    height: 40px;
+    margin-top: 19%;
+    border-radius: 8px;
+    background-color: #CD5E77;
+    font-size: 13px;
+    border: 1px solid #F4C2C2;
+}
 #close-btn{
     position: fixed;
-    top: 50%;
+    top: 50%; /* Adjust the vertical position as needed */
     left: 50%;
     transform: translate(-50%, -50%);
     right: 0;
@@ -86,8 +101,8 @@ input {
 }
 
 .form {
-    width: 100%; 
-    max-width: 400px; 
+    width: 100%;
+    max-width: 400px;
     margin: auto;
     display: flex;
     flex-direction: column;
@@ -97,9 +112,9 @@ input {
 
 .image {
     flex: 1;
-    background: url('login.jpg') center/cover no-repeat;
-    width: 60%; 
-    
+    background: url('../images/login.jpg') center/cover no-repeat;
+    width: 60%;
+
 }
 
 
@@ -177,7 +192,7 @@ p{
 
 .welcomePart {
     width: 100%;
-    background-image:url(index.jpg);
+    background-image:url(../images/index.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
@@ -436,7 +451,7 @@ option:hover {
     background: none;
     font-size: 24px;
     cursor: pointer;
-    color: #CD5E77;
+    color: black;
 }
 
 .tableButton:hover {
@@ -444,13 +459,22 @@ option:hover {
     transition: 0.25s;
 }
 
+/*.side {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 0 10px;
+}*/
+/* Add this style to your CSS or style tag */
+/* Add this style to your CSS or style tag */
 .cardVisible {
     display: block;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    max-width: 80%;
+    max-width: 80%; /* Adjust the maximum width as needed */
     background-color: #fff;
     border: 1px solid #ddd;
     padding: 20px;
@@ -458,9 +482,10 @@ option:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Media query for responsiveness */
 @media only screen and (max-width: 600px) {
     .cardVisible {
-        max-width: 90%;
+        max-width: 90%; /* Adjust the maximum width for smaller screens */
     }
 }
 
@@ -543,4 +568,76 @@ button.ui-button:hover {
     background: #CD5E77;
     transition: 0.5s;
     box-shadow: 3px 3px 3px dimgray;
+}
+.card {
+    background-color: lightpink;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    height:300px;
+    width: 300px;
+}
+
+h2, label, .comment {
+    color: black;
+    font-size: 20px;
+}
+
+.rate, .comment {
+    margin-bottom: 10px;
+}
+
+.rate {
+    margin-left:60px;
+    float: left;
+    height: 46px;
+    padding: 0 10px;
+    align-content: center;
+}
+{
+    clear: both;
+}
+
+.rate:not(:checked) > input {
+    position: absolute;
+    top: -9999px;
+}
+
+.rate:not(:checked) > label {
+    float: right;
+    width: 1em;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
+    font-size: 30px;
+    color: white;
+}
+
+.rate:not(:checked) > label:before {
+    content: '★ ';
+}
+
+.rate > input:checked ~ label {
+    color: #CD5E77;
+}
+
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+    color: #CD5E77;
+}
+
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+    color: #CD5E77;
+
+}
+#number label,
+#rating label,
+#review label {
+    font-size: 14px;
+    color: #555;
 }
