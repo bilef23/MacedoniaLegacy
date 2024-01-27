@@ -43,7 +43,7 @@ public class TransferingServiceImpl implements TransferingService {
 
         List<Coordinates> list=new ArrayList<>();
         for (JsonNode feature : features) {
-            // Extract properties
+
             JsonNode properties = feature.path("properties");
             JsonNode geometry = feature.path("geometry");
             JsonNode coordinates = geometry.path("coordinates");
