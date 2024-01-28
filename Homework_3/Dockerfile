@@ -1,11 +1,9 @@
-FROM maven:3.9.2-eclipse-temurin-17-alpine as builder
+FROM openjdk:17
 
-COPY ./src src/
-COPY ./pom.xml pom.xml
+ARG JAR_FILE=target/*.jar
 
-RUN mvn clean package -DskipTests
+RUN mkdir /opt/Homework_3
 
-FROM eclipse-temurin:17-jre-alpine
-COPY --from=builder target/*.jar app.jar
-EXPOSE 9191
-CMD ["java","-jar","app.jar"]
+COPY ${JAR_FILE} /opt/location-microservice/app.jar
+
+ENTRYPOINT ["java","-jar","/opt/Homework_3/app.jar"]
