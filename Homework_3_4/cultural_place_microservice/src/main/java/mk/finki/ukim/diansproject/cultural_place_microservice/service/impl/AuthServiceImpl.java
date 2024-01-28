@@ -6,8 +6,6 @@ import mk.finki.ukim.diansproject.cultural_place_microservice.service.AuthServic
 import mk.finki.ukim.diansproject.model.Exceptions.InvalidArgumentsException;
 import mk.finki.ukim.diansproject.model.Exceptions.InvalidUserCredentialsException;
 
-
-;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
