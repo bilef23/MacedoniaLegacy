@@ -1,9 +1,7 @@
-FROM openjdk:17
+FROM openjdk:21
 
 ARG JAR_FILE=target/*.jar
 
-RUN mkdir /opt/Homework_3
+COPY ./target/eureka-server-0.0.1-SNAPSHOT.jar app.jar
 
-COPY ${JAR_FILE} /opt/eureka-server/app.jar
-
-ENTRYPOINT ["java","-jar","/opt/Homework_3/app.jar"]
+ENTRYPOINT ["java","-jar","/app.jar"]
