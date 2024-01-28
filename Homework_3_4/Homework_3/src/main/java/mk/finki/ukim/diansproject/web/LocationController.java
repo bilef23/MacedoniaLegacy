@@ -18,7 +18,7 @@ public class LocationController {
     @PostMapping("/receiveLoc")
     @ResponseBody
     public String receiveLocation(@RequestParam Long placeId) throws IOException {
-        String str = restTemplate.getForObject("http://localhost8081/location?placeId=" + placeId,String.class);
+        String str = restTemplate.getForObject("https://location-service-azi3.onrender.com/location?placeId=" + placeId,String.class);
         return str;
     }
 }
