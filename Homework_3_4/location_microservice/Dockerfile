@@ -2,8 +2,6 @@ FROM openjdk:17
 
 ARG JAR_FILE=target/*.jar
 
-RUN mkdir /opt/Homework_3
+COPY ./target/location_microservice-0.0.1-SNAPSHOT.jar app.jar
 
-COPY ${JAR_FILE} /opt/location-microservice/app.jar
-
-ENTRYPOINT ["java","-jar","/opt/Homework_3/app.jar"]
+ENTRYPOINT ["java","-jar","/app.jar"]
