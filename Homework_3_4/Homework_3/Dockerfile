@@ -1,9 +1,4 @@
-FROM openjdk:17
-
-ARG JAR_FILE=target/*.jar
-
-RUN mkdir /opt/Homework_3
-
-COPY ${JAR_FILE} /opt/Homework_3/app.jar
-
-ENTRYPOINT ["java","-jar","/opt/Homework_3/app.jar"]
+ FROM eclipse-temurin:17-jre-alpine
+ COPY --from=builder target/*.jar app.jar
+ EXPOSE 9191
+ CMD ["java","-jar","app.jar"] 
