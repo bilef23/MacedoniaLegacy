@@ -2,6 +2,8 @@ FROM openjdk:21
 
 ARG JAR_FILE=target/*.jar
 
-COPY ./target/eureka-server-0.0.1-SNAPSHOT.jar eureka-server.jar
+RUN mkdir /opt/eureka-server
 
-ENTRYPOINT ["java","-jar","eureka-server.jar"]
+COPY ${JAR_FILE} /opt/eureka-server/app.jar
+
+ENTRYPOINT ["java","-jar","/opt/eureka-server/app.jar"]
