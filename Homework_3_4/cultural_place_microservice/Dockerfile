@@ -1,9 +1,7 @@
-FROM openjdk:17
+FROM openjdk:21
 
 ARG JAR_FILE=target/*.jar
 
-RUN mkdir /opt/cultural_place_microservice
+COPY ./target/cultural_place_microservice-0.0.1-SNAPSHOT.jar app.jar
 
-COPY ${JAR_FILE} /opt/cultural_place_microservice/app.jar
-
-ENTRYPOINT ["java","-jar","/opt/cultural_place_microservice/app.jar"]
+ENTRYPOINT ["java","-jar","/app.jar"]
