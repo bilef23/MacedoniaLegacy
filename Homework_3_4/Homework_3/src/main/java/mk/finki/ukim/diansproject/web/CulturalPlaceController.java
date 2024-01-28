@@ -47,7 +47,7 @@ public class CulturalPlaceController {
     @GetMapping()
     public ModelAndView getMainPage(Model model) throws IOException, CsvException {
         ResponseEntity<List<CulturalPlace>> response = restTemplate.exchange(
-                "http://localhost:8082/places",
+                "https://cultural-place-service.onrender.com/places",
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<>() {
@@ -66,7 +66,7 @@ public class CulturalPlaceController {
     @GetMapping("/additional-information/{id}")
     public ResponseEntity<Map<String, Object>> getAdditionalInfo(@PathVariable Long id) {
         ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
-                "http://localhost:8082/places/additional-information/"+id,
+                "https://cultural-place-service.onrender.com/places/additional-information/"+id,
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<Map<String, Object>>() {},
@@ -99,7 +99,7 @@ public class CulturalPlaceController {
                                      @RequestParam(required = false) String searchLocation,
                                      Model model) throws IOException, InterruptedException {
         ResponseEntity<List<CulturalPlace>> response = restTemplate.exchange(
-                "http://localhost:8082/places/filter?category="+category+"&searchName="+searchName+"&searchLocation="+searchLocation,
+                "https://cultural-place-service.onrender.com/places/filter?category="+category+"&searchName="+searchName+"&searchLocation="+searchLocation,
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<>() {
